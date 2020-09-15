@@ -141,8 +141,11 @@ class FairseqTranslator:
         ).next_epoch_itr(shuffle=False)
 
         #Empty the iterator once, just to see
-        xxx= [i for i in itr]
-
+        xxx = next(itr)
+        while xxx:
+            autolog(f"xxx:T:{str(type(xxx))}:L::{len(xxx)}::_:{xxx}:")
+            autolog(f"xxx[0]:T:{str(type(xxx[0]))}:L::{len(xxx[0])}::_:{xxx[0]}:")
+            
 
         itr = task.get_batch_iterator(
             dataset=task.build_dataset_for_inference(tokens, lengths),
@@ -157,8 +160,6 @@ class FairseqTranslator:
         autolog(f"tokens:T:{str(type(tokens))}:L::{len(tokens)}::_:{tokens}:")
         autolog(f"lengths:T:{str(type(lengths))}:L::{len(lengths)}::_:{lengths}:")
         autolog(f"itr:T:{str(type(itr))}:L::{len(itr)}::_:{itr}:")
-        autolog(f"xxx:T:{str(type(xxx))}:L::{len(xxx)}::_:{xxx}:")
-        autolog(f"xxx[0]:T:{str(type(xxx[0]))}:L::{len(xxx[0])}::_:{xxx[0]}:")
         for batch in itr:
             yield Batch(
                 ids=batch['id'],
