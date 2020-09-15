@@ -133,19 +133,6 @@ class FairseqTranslator:
             for src_str in lines
         ]
         lengths = torch.LongTensor([t.numel() for t in tokens])
-        itr = task.get_batch_iterator(
-            dataset=task.build_dataset_for_inference(tokens, lengths),
-            max_tokens=args.max_tokens,
-            max_sentences=args.max_sentences,
-            max_positions=max_positions,
-        ).next_epoch_itr(shuffle=False)
-
-        #Empty the iterator once, just to see
-        xxx = next(itr)
-        while xxx:
-            autolog(f"xxx:T:{str(type(xxx))}:L::{len(xxx)}::_:{xxx}:")
-            #autolog(f"xxx[0]:T:{str(type(xxx[0]))}:L::{len(xxx[0])}::_:{xxx[0]}:")
-            
 
         itr = task.get_batch_iterator(
             dataset=task.build_dataset_for_inference(tokens, lengths),
@@ -153,7 +140,6 @@ class FairseqTranslator:
             max_sentences=args.max_sentences,
             max_positions=max_positions,
         ).next_epoch_itr(shuffle=False)
-
 
         autolog(f"Args:T:{str(type(args))}:L::::_:{args}:")
         autolog(f"task:T:{str(type(task))}:L::{len('task')}::_:{task}:")
