@@ -140,7 +140,7 @@ class FairseqTranslator:
             max_positions=max_positions,
         ).next_epoch_itr(shuffle=False)
         autolog(f"Args:T:{str(type(args))}:L::::_:{args}:")
-        autolog(f"task:T:{str(type(task))}:L::{len(task)}::_:{task}:")
+        autolog(f"task:T:{str(type(task))}:L::{len('task')}::_:{task}:")
         autolog(f"tokens:T:{str(type(tokens))}:L::{len(tokens)}::_:{tokens}:")
         autolog(f"lengths:T:{str(type(lengths))}:L::{len(lengths)}::_:{lengths}:")
         autolog(f"itr:T:{str(type(itr))}:L::{len(itr)}::_:{itr}:")
