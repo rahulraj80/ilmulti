@@ -1,6 +1,7 @@
 import os
 import warnings
 from collections import namedtuple
+from ..utils import autolog
 
 # These are heavy dependencies.
 try:
@@ -65,6 +66,8 @@ class FairseqTranslator:
         tgt_dict = self.task.target_dictionary
         align_dict = utils.load_align_dict(args.replace_unk)
 
+        autolog(f":src_dict:T:{str(type(src_dict))}:L:{len(src_dict)}:tgt:T:{str(type(tgt_dict))}:L:{len(tgt_dict)}:Align:T:{str(type(align_dict))}:L:{len(align_dict)}:")
+        autolog(f"::Lines:T:{str(type(lines))}:L:{len(lines)}:lines:{lines}:")
         for batch, idx in self._make_batches(lines):
             src_tokens = batch.src_tokens
             src_lengths = batch.src_lengths
@@ -129,7 +132,6 @@ class FairseqTranslator:
             encode_fn(src_str), add_if_not_exist=False).long()
             for src_str in lines
         ]
-
         lengths = torch.LongTensor([t.numel() for t in tokens])
         itr = task.get_batch_iterator(
             dataset=task.build_dataset_for_inference(tokens, lengths),
@@ -137,6 +139,11 @@ class FairseqTranslator:
             max_sentences=args.max_sentences,
             max_positions=max_positions,
         ).next_epoch_itr(shuffle=False)
+        autolog(f"Args:T:{str(type(args))}:L::{len(args)}::_:{args}:")
+        autolog(f"task:T:{str(type(task))}:L::{len(task)}::_:{task}:")
+        autolog(f"tokens:T:{str(type(tokens))}:L::{len(tokens)}::_:{tokens}:")
+        autolog(f"lengths:T:{str(type(lengths))}:L::{len(lengths)}::_:{lengths}:")
+        autolog(f"itr:T:{str(type(itr))}:L::{len(itr)}::_:{itr}:")
         for batch in itr:
             yield Batch(
                 ids=batch['id'],
