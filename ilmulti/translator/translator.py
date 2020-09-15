@@ -139,11 +139,26 @@ class FairseqTranslator:
             max_sentences=args.max_sentences,
             max_positions=max_positions,
         ).next_epoch_itr(shuffle=False)
+
+        #Empty the iterator once, just to see
+        xxx= [i for i in itr]
+
+
+        itr = task.get_batch_iterator(
+            dataset=task.build_dataset_for_inference(tokens, lengths),
+            max_tokens=args.max_tokens,
+            max_sentences=args.max_sentences,
+            max_positions=max_positions,
+        ).next_epoch_itr(shuffle=False)
+
+
         autolog(f"Args:T:{str(type(args))}:L::::_:{args}:")
         autolog(f"task:T:{str(type(task))}:L::{len('task')}::_:{task}:")
         autolog(f"tokens:T:{str(type(tokens))}:L::{len(tokens)}::_:{tokens}:")
         autolog(f"lengths:T:{str(type(lengths))}:L::{len(lengths)}::_:{lengths}:")
         autolog(f"itr:T:{str(type(itr))}:L::{len(itr)}::_:{itr}:")
+        autolog(f"xxx:T:{str(type(xxx))}:L::{len(xxx)}::_:{xxx}:")
+        autolog(f"xxx[0]:T:{str(type(xxx[0]))}:L::{len(xxx[0])}::_:{xxx[0]}:")
         for batch in itr:
             yield Batch(
                 ids=batch['id'],
