@@ -1,5 +1,25 @@
 import ilmulti
-from ..utils import autolog
+def autolog(message):
+    "Automatically log the current function details."
+    import inspect, logging
+    # Get the previous frame in the stack, otherwise it would
+    # be this function!!!
+    print(">"*10)
+    func = inspect.currentframe().f_back.f_code
+    # Dump the message + the name of this function to the log.
+    #logging.debug("%s: %s in %s:%i" % (
+    #    message, 
+    #    func.co_name, 
+    #    func.co_filename, 
+    #    func.co_firstlineno
+    #))
+    print("%s: %s in %s:%i" % (
+        message, 
+        func.co_name, 
+        func.co_filename, 
+        func.co_firstlineno
+    ))
+    print(">"*10)
 
 class MTEngine:
     def __init__(self, translator, segmenter, tokenizer):
