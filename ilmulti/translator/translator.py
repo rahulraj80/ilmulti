@@ -66,7 +66,7 @@ class FairseqTranslator:
         tgt_dict = self.task.target_dictionary
         align_dict = utils.load_align_dict(args.replace_unk)
 
-        autolog(f":src_dict:T:{str(type(src_dict))}:L:{len(src_dict)}:tgt:T:{str(type(tgt_dict))}:L:{len(tgt_dict)}:Align:T:{str(type(align_dict))}:L:{len(align_dict)}:")
+        autolog(f":src_dict:T:{str(type(src_dict))}:L::tgt:T:{str(type(tgt_dict))}:L::Align:T:{str(type(align_dict))}:L::")
         autolog(f"::Lines:T:{str(type(lines))}:L:{len(lines)}:lines:{lines}:")
         for batch, idx in self._make_batches(lines):
             src_tokens = batch.src_tokens
