@@ -20,7 +20,13 @@ def autolog(message):
     # be this function!!!
     func = inspect.currentframe().f_back.f_code
     # Dump the message + the name of this function to the log.
-    logging.debug("%s: %s in %s:%i" % (
+    #logging.debug("%s: %s in %s:%i" % (
+    #    message, 
+    #    func.co_name, 
+    #    func.co_filename, 
+    #    func.co_firstlineno
+    #))
+    print("%s: %s in %s:%i" % (
         message, 
         func.co_name, 
         func.co_filename, 
