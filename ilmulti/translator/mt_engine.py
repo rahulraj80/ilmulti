@@ -1,4 +1,5 @@
 import ilmulti
+from ..utils import autolog
 
 class MTEngine:
     def __init__(self, translator, segmenter, tokenizer):
@@ -12,15 +13,19 @@ class MTEngine:
         interaction.
         """
         lang, lines = self.segmenter(source, lang=src_lang)
+        autolog(f"lang:{lang}::Num Lines:{len(lines)}::Lines:{lines}::T:{str(type(lines))}:T0:{str(type(lines[0]))}::Source:{source}:")
         sources = []
         for line in lines:
             lang, tokens = self.tokenizer(line, lang=src_lang)
             src_lang = src_lang or lang
+            autolog(f":lang:{src_lang}::Tokens::T:{str(type(tokens))}:Tokens:{tokens}::lango:{lang}:")
             # Unsupervised tokenization.
             tokens = [ilmulti.utils.language_token(tgt_lang)] + tokens
             content = ' '.join(tokens)
             sources.append(content)
+            autolog(f":Content::T:{str(type(content))}:content:{content}:::Tokens2::T:{str(type(tokens))}:Tokens2_len:{len(tokens)}::Tokens10:{tokens[:10]}:::")
 
+        autolog(f":Sources::T:{str(type(sources))}:len:{len(sources)}:::Sources::T:{sources}:::")
         export = self.translator(sources)
         export = self._handle_empty_lines_noise(export)
         if detokenize:
