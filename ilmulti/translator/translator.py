@@ -144,7 +144,7 @@ class FairseqTranslator:
         xxx = next(itr)
         while xxx:
             autolog(f"xxx:T:{str(type(xxx))}:L::{len(xxx)}::_:{xxx}:")
-            autolog(f"xxx[0]:T:{str(type(xxx[0]))}:L::{len(xxx[0])}::_:{xxx[0]}:")
+            #autolog(f"xxx[0]:T:{str(type(xxx[0]))}:L::{len(xxx[0])}::_:{xxx[0]}:")
             
 
         itr = task.get_batch_iterator(
